@@ -1,0 +1,1 @@
+#Contains information about a node of a tree, such as its value and its childrens and its parent.

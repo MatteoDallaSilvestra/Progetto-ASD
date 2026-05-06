@@ -52,6 +52,31 @@ class AVL(BinaryTree):
             else:
                 node = node.parent
 
+    def remove(self, key):
+        node_to_remove = self.find(key)
+        if node_to_remove is None:
+            return
+        
+        if node_to_remove.left is not None and node_to_remove.right is not None:
+            successor = self.find_min(node_to_remove.right)
+            node_to_remove.key = successor.key
+            node_to_remove = successor
+        
+        child = node_to_remove.left if node_to_remove.left else node_to_remove.right
+        parent = node_to_remove.parent
+
+        if child is not None:
+            child.parent = parent
+        
+        if parent is None:
+            self.root = child
+        elif parent.left == node_to_remove:
+            parent.left = child
+        else:
+            parent.right = child
+        
+        self.rebalance(parent)
+
             
                     
 

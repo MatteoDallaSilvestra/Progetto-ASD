@@ -28,7 +28,11 @@ class main:
         tree.insert(37)
         tree.insert(43)
         tree.insert(47)
-
+        tree.remove(10)
+        tree.remove(20)
+        tree.remove(30)
+        tree.remove(40)
+        tree.remove(50)
         tree.print_tree()
         
        

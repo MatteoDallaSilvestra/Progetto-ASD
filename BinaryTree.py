@@ -113,3 +113,10 @@ class BinaryTree:
         print(' ' * 4 * level + '-> ' + str(node.key))
         if node.left is not None:
             self.print_tree(node.left, level + 1)
+
+
+    def find_min(self, node):
+        current_node = node
+        while current_node.left is not None:
+            current_node = current_node.left
+        return current_node

@@ -1,15 +1,36 @@
 
 from BST import BST
 from TreeNode import TreeNode
+from AVLTreeNode import AVLTreeNode
+from AVL import AVL
 
 
 class main:
     def __init__(self):
         
-        tree = BST(TreeNode(10, TreeNode(5, TreeNode(1), TreeNode(8)), TreeNode(15, TreeNode(12), TreeNode(18))))
+        tree = AVL()
+        tree.insert(10)
+        tree.insert(20)
+        tree.insert(30)      
+        tree.insert(40)
+        tree.insert(50)
+        tree.insert(25)
+        tree.insert(5)
+        tree.insert(15)
+        tree.insert(35)
+        tree.insert(45)
+        tree.insert(55)
+        tree.insert(3)
+        tree.insert(7)
+        tree.insert(13)
+        tree.insert(17)
+        tree.insert(33)
+        tree.insert(37)
+        tree.insert(43)
+        tree.insert(47)
+
         tree.print_tree()
-        tree.rotate_left(tree.root)
-        tree.print_tree()
+        
        
         
         

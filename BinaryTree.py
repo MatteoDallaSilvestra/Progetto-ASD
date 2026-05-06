@@ -16,14 +16,16 @@ class BinaryTree:
 
     def detach_left(self, parent_node):
         detached_node = parent_node.left
-        parent_node.left = None
-        detached_node.parent = None
+        if detached_node is not None:
+            parent_node.left = None
+            detached_node.parent = None
         return detached_node
 
     def detach_right(self, parent_node):
         detached_node = parent_node.right
-        parent_node.right = None
-        detached_node.parent = None
+        if detached_node is not None:
+            parent_node.right = None
+            detached_node.parent = None
         return detached_node
 
     def rotate_left(self, node):

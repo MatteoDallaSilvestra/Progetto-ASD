@@ -1,16 +1,19 @@
-from RBTreeNode import RBTreeNode
-from RBT import RBT
+
+from BST import BST
+from TreeNode import TreeNode
 
 
 class main:
     def __init__(self):
-        self.tree = RBT()
-        self.tree.insert(10)
-        self.tree.insert(20)
-        self.tree.insert(30)
-        self.tree.insert(15)
-        self.tree.insert(25)
-        self.tree.insert(5)
+        
+        tree = BST(TreeNode(10, TreeNode(5, TreeNode(1), TreeNode(8)), TreeNode(15, TreeNode(12), TreeNode(18))))
+        tree.print_tree()
+        tree.rotate_left(tree.root)
+        tree.print_tree()
+       
+        
+        
+        
 
 if __name__ == "__main__":
     main()

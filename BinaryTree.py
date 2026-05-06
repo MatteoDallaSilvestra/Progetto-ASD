@@ -21,3 +21,6 @@ class BinaryTree:
 
     def rotate_right(self, node):
         pass
+
+    def find(self, key):
+        pass

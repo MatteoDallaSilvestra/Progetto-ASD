@@ -3,11 +3,9 @@ from BST import BST
 from TreeNode import TreeNode
 from AVLTreeNode import AVLTreeNode
 from AVL import AVL
+from RandomKeysHandler import RandomKeyHandler
 
-
-class main:
-    def __init__(self):
-        
+def generateAVL():
         tree = AVL()
         tree.insert(10)
         tree.insert(20)
@@ -35,10 +33,34 @@ class main:
         tree.remove(50)
         tree.print_tree()
         
+def random_gen():
+    random_generator = RandomKeyHandler()
+    random_generator.update_working_set(10)
+    tree = AVL()
+    random_generator.populateTree(tree)
+    random_generator.print_working_set()
+    tree.insert(random_generator.get_key_to_insert())
+    tree.print_tree()
+    random_generator.remove_key(tree)
+    random_generator.print_working_set()
+    tree.print_tree()
+    
+   
+    
+
+
+    
+    
+
+
+class main:
+    def __init__(self):
+        random_gen()
+        
+        
        
-        
-        
-        
+    
+    
 
 if __name__ == "__main__":
     main()

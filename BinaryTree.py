@@ -29,7 +29,6 @@ class BinaryTree:
         return detached_node
 
     def rotate_left(self, node):
-        working_tree = BinaryTree()
         right_subtree = BinaryTree()
         beta = BinaryTree()
 
@@ -61,7 +60,6 @@ class BinaryTree:
                 self.attach_right(parent_node, right_subtree.root)
 
     def rotate_right(self, node):
-        working_tree = BinaryTree()
         left_subtree = BinaryTree()
         beta = BinaryTree()
 

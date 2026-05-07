@@ -1,7 +1,7 @@
 # Class AVl Tree 
 # Contains the implementation of AVL Tree and its operations
-from AVLTreeNode import AVLTreeNode
-from BinaryTree import BinaryTree
+from .AVLTreeNode import AVLTreeNode
+from .BinaryTree import BinaryTree
 
 class AVL(BinaryTree):
 
@@ -33,24 +33,24 @@ class AVL(BinaryTree):
     
     def rebalance(self, node):
         while node is not None:
+            # Save parent before rotations change the structure and node.parent
+            parent = node.parent
+
             node.calculate_height()
             node.calculate_bf()
             balance = node.bf
 
-            if balance > 1 or balance < -1:
-                if balance > 1:
-                    if node.left.bf < 0:
-                        self.rotate_left(node.left)
-                    self.rotate_right(node)
-                    
-                    
-
-                elif balance < -1:
-                    if node.right.bf > 0:
-                        self.rotate_right(node.right)
-                    self.rotate_left(node)
-            else:
-                node = node.parent
+            if balance > 1: # Left heavy
+                if node.left.bf < 0: # Left-Right case
+                    self.rotate_left(node.left)
+                self.rotate_right(node)
+            elif balance < -1: # Right heavy
+                if node.right.bf > 0: # Right-Left case
+                    self.rotate_right(node.right)
+                self.rotate_left(node)
+            
+            # Move up to the original parent to continue checking
+            node = parent
 
     def remove(self, key):
         node_to_remove = self.find(key)

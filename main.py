@@ -1,5 +1,5 @@
 
-from trees.BST import BST
+#from trees.BST import BST
 from trees.TreeNode import TreeNode
 from trees.AVLTreeNode import AVLTreeNode
 from trees.AVL import AVL

@@ -1,6 +1,6 @@
 # Represents a node of an AVL tree, which is a self-balancing binary search tree. It inherits from TreeNode and adds an attribute for the height of the node.
 
-from TreeNode import TreeNode
+from .TreeNode import TreeNode
 
 class AVLTreeNode(TreeNode):
     def __init__(self, key, left = None, right = None, bf = 0, height = 1):

@@ -1,9 +1,9 @@
 
-from BST import BST
-from TreeNode import TreeNode
-from AVLTreeNode import AVLTreeNode
-from AVL import AVL
-from RandomKeysHandler import RandomKeyHandler
+from trees.BST import BST
+from trees.TreeNode import TreeNode
+from trees.AVLTreeNode import AVLTreeNode
+from trees.AVL import AVL
+from utils.RandomKeysHandler import RandomKeyHandler
 
 def generateAVL():
         tree = AVL()

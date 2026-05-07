@@ -1,5 +1,5 @@
 # Represent a node of a Red-Black Tree, which is a special kind of binary search tree. It contains information about the node's key, its color (red or black), its left and right children, and its parent.
-from TreeNode import TreeNode
+from .TreeNode import TreeNode
 
 
 class RBTreeNode(TreeNode):

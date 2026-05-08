@@ -1,7 +1,6 @@
 
 from trees.BST import BST
 from trees.TreeNode import TreeNode
-from trees.AVLTreeNode import AVLTreeNode
 from trees.AVL import AVL
 from utils.RandomKeysHandler import RandomKeyHandler
 
@@ -38,12 +37,12 @@ def random_gen():
     random_generator.update_working_set(10)
     tree = AVL()
     random_generator.populateTree(tree)
-    random_generator.print_working_set()
     tree.insert(random_generator.get_key_to_insert())
     tree.print_tree()
     random_generator.remove_key(tree)
-    random_generator.print_working_set()
-    tree.print_tree()
+
+    
+    
     
    
     

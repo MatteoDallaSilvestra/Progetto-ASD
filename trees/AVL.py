@@ -1,7 +1,7 @@
 # Class AVl Tree 
 # Contains the implementation of AVL Tree and its operations
-from AVLTreeNode import AVLTreeNode
-from BinaryTree import BinaryTree
+from .AVLTreeNode import AVLTreeNode
+from .BinaryTree import BinaryTree
 
 class AVL(BinaryTree):
 

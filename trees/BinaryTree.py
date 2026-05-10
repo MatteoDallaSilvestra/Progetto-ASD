@@ -5,13 +5,13 @@ class BinaryTree:
         self.root = root
 
     def attach_left(self, parent_node, child_node):
-        parent_node.left = child_node
-        if child_node is not None:
+        if child_node is not None and parent_node is not None:
+            parent_node.left = child_node
             child_node.parent = parent_node
 
     def attach_right(self, parent_node, child_node):
-        parent_node.right = child_node
-        if child_node is not None:
+        if child_node is not None and parent_node is not None:
+            parent_node.right = child_node
             child_node.parent = parent_node
 
     def detach_left(self, parent_node):

@@ -63,13 +63,13 @@ class RBT(BinaryTree):
                     # CASO QUASI FORTUNATO: Zio è NERO e z è "interno" (triangolo)
                     if z == z.parent.right:
                         z = z.parent
-                        self.left_rotate(z)
+                        self.rotate_left(z)
                     
                     # CASO FORTUNATO: Zio è NERO e z è "esterno" (linea)
                     z.parent.color = 'black'
                     if z.parent.parent is not None:
                         z.parent.parent.color = 'red'
-                        self.right_rotate(z.parent.parent)
+                        self.rotate_right(z.parent.parent)
                     
             # PARTE B: Il padre di z è un figlio destro (Simmetrico)
             elif z.parent.parent is not None:
@@ -86,43 +86,27 @@ class RBT(BinaryTree):
                     # CASO QUASI FORTUNATO
                     if z == z.parent.left:
                         z = z.parent
-                        self.right_rotate(z)
+                        self.rotate_right(z)
                     
                     # CASO FORTUNATO
                     z.parent.color = 'black'
                     if z.parent.parent is not None:
                         z.parent.parent.color = 'red'
-                        self.left_rotate(z.parent.parent)
+                        self.rotate_left(z.parent.parent)
 
         #la radice deve essere sempre NERA
         self.root.color = 'black'
 
-    def left_rotate(self, x):
-        y = x.right
-        x.right = y.left
-        if y.left is not None:
-            y.left.parent = x
-        y.parent = x.parent
-        if x.parent is None:
-            self.root = y
-        elif x == x.parent.left:
-            x.parent.left = y
-        else:
-            x.parent.right = y
-        y.left = x
-        x.parent = y
-
-    def right_rotate(self, x):
-        y = x.left
-        x.left = y.right
-        if y.right is not None:
-            y.right.parent = x
-        y.parent = x.parent
-        if x.parent is None:
-            self.root = y
-        elif x == x.parent.right:
-            x.parent.right = y
-        else:
-            x.parent.left = y
-        y.right = x
-        x.parent = y
+    def print_tree(self, node=None, level=0):
+        if node is None:
+            node = self.root
+            if node is None:
+                return
+        if node.right is not None:
+            self.print_tree(node.right, level + 1)
+            
+        color_label = "(R)" if node.color == 'red' else "(B)"
+        print(' ' * 4 * level + '-> ' + str(node.key) + ' ' + color_label)
+        
+        if node.left is not None:
+            self.print_tree(node.left, level + 1)

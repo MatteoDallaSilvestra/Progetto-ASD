@@ -76,8 +76,3 @@ class AVL(BinaryTree):
             parent.right = child
         
         self.rebalance(parent)
-
-            
-                    
-
-    

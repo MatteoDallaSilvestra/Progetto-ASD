@@ -3,6 +3,7 @@
 from .TreeNode import TreeNode
 
 class AVLTreeNode(TreeNode):
+    
     def __init__(self, key, left = None, right = None, bf = 0, height = 1):
         super().__init__(key, left, right)
         self.bf = bf

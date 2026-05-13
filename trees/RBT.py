@@ -136,11 +136,7 @@ class RBT(BinaryTree):
             y_original_color = y.color
             x = y.right
             
-            if y.parent == z:
-                # Se x è None (foglia), dobbiamo assicurarci che il fixup possa risalire
-                if x: 
-                    x.parent = y
-            else:
+            if y.parent != z:
                 self.replace_node(y, y.right)
                 y.right = z.right
                 y.right.parent = y
@@ -150,13 +146,12 @@ class RBT(BinaryTree):
             y.left.parent = y
             y.color = z.color
 
-        # Se abbiamo rimosso un nodo NERO, dobbiamo rimediare alla perdita di "potere nero"
         if y_original_color == 'black':
-            # Se x è None, usiamo un nodo dummy o gestiamo il parent nel fixup
+            # Se x esiste è ora Double-Black
             self.delete_fix(x if x else z.parent) 
 
     def replace_node(self, u, v):
-        """Sostituisce il sottoalbero con radice u con quello con radice v"""
+        #Sostituisce il sottoalbero con radice u con quello con radice v
         if u.parent is None:
             self.root = v
         elif u == u.parent.left:
@@ -167,7 +162,7 @@ class RBT(BinaryTree):
             v.parent = u.parent
 
     def find_min(self, node):
-        """Trova il nodo con il valore minimo partendo da node"""
+        #Trova il nodo con il valore minimo partendo da node
         while node.left:
             node = node.left
         return node
@@ -177,27 +172,27 @@ class RBT(BinaryTree):
         while x and x != self.root and x.color == 'black':
             if x == x.parent.left:
                 sibling = x.parent.right
-                # Caso 1: Il fratello è rosso
+                # CASO ANTIPATICO: Il fratello è rosso
                 if sibling and sibling.color == 'red':
                     sibling.color = 'black'
                     x.parent.color = 'red'
                     self.rotate_left(x.parent)
                     sibling = x.parent.right
                 
-                # Caso 2: Il fratello è nero e ha entrambi i figli neri
-                if (not sibling.left or sibling.left.color == 'black') and \
-                (not sibling.right or sibling.right.color == 'black'):
+                # CASO SFORTUNATO: Il fratello è nero e ha entrambi i figli neri
+                if (not sibling.left or sibling.left.color == 'black') and (not sibling.right or sibling.right.color == 'black'):
+                    #in un RBT i nodi mancanti sono considerati foglie nere
                     sibling.color = 'red'
                     x = x.parent
                 else:
-                    # Caso 3: Il fratello è nero, figlio sinistro rosso, figlio destro nero
+                    # CASO QUASI FORTUNATO: Il fratello è nero, figlio sinistro rosso, figlio destro nero
                     if not sibling.right or sibling.right.color == 'black':
                         if sibling.left: sibling.left.color = 'black'
                         sibling.color = 'red'
                         self.rotate_right(sibling)
                         sibling = x.parent.right
                     
-                    # Caso 4: Il fratello è nero e il figlio destro è rosso
+                    # CASO FORTUNATO: Il fratello è nero e il figlio destro è rosso
                     sibling.color = x.parent.color
                     x.parent.color = 'black'
                     if sibling.right: sibling.right.color = 'black'
@@ -212,8 +207,7 @@ class RBT(BinaryTree):
                     self.rotate_right(x.parent)
                     sibling = x.parent.left
                     
-                if (not sibling.left or sibling.left.color == 'black') and \
-                (not sibling.right or sibling.right.color == 'black'):
+                if (not sibling.left or sibling.left.color == 'black') and (not sibling.right or sibling.right.color == 'black'):
                     sibling.color = 'red'
                     x = x.parent
                 else:

@@ -54,11 +54,13 @@ def generateRBT():
         tree.insert(37)
         tree.insert(43)
         tree.insert(47)
-        '''tree.remove(10)
-        tree.remove(20)
-        tree.remove(30)
-        tree.remove(40)
-        tree.remove(50)'''
+        tree.print_tree()
+        print("\n\n\n")
+        tree.delete(10)
+        tree.delete(20)
+        tree.delete(30)
+        tree.delete(40)
+        tree.delete(50)
         tree.print_tree()
 
 
@@ -80,17 +82,10 @@ def random_gen():
     
    
     
-
-
-    
-    
-
-
 class main:
     def __init__(self):
-        random_gen()
-        #generateRBT()
-        
+        #random_gen()
+        generateRBT()
         
        
     

@@ -5,9 +5,6 @@
 
 # In working set, keys after the used keys index are available for insertion, while keys before the used keys index are available for removal.
 
-
-
-
 import random
 
 class RandomKeyHandler:
@@ -31,7 +28,6 @@ class RandomKeyHandler:
             tree.insert(self.working_set[self.used_keys_index])
             self.used_keys_index += 1
         
-       
     def get_key_to_insert(self):
         
         if self.used_keys_index >= self.dimension+1:
@@ -48,10 +44,5 @@ class RandomKeyHandler:
         tree.remove(self.working_set[self.used_keys_index - 1])
         self.used_keys_index -= 1
         
-
     def print_working_set(self):
         print("Working set:", self.working_set)
-        
-        
-
-    

@@ -1,7 +1,6 @@
 
-#from trees.BST import BST
+from trees.BST import BST
 from trees.RBT import RBT
-from trees.TreeNode import TreeNode
 from trees.AVL import AVL
 from utils.RandomKeysHandler import RandomKeyHandler
 
@@ -67,9 +66,12 @@ def generateRBT():
 def random_gen():
     random_generator = RandomKeyHandler()
     random_generator.update_working_set(10)
-    tree = AVL()
+    random_generator.print_working_set()
+    tree = BST()
     random_generator.populateTree(tree)
+    tree.print_tree()
     tree.insert(random_generator.get_key_to_insert())
+    random_generator.print_working_set()
     tree.print_tree()
     random_generator.remove_key(tree)
 
@@ -86,8 +88,8 @@ def random_gen():
 
 class main:
     def __init__(self):
-        #random_gen()
-        generateRBT()
+        random_gen()
+        #generateRBT()
         
         
        

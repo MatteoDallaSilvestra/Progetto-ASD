@@ -5,10 +5,10 @@ class DataStorage:
     def __init__(self):
         self._data = []
     
-    def add_data(self, tree_type: str, key: int, insert_time: float):
+    def add_data(self, tree_type: str, n: int, insert_time: float):
         self._data.append({
             "Tree Type": tree_type,
-            "Key": key,
+            "n": n,
             "Insert Time": insert_time
         })
 

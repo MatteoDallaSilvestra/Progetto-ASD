@@ -14,3 +14,8 @@ class DataStorage:
 
     def get_dataframe(self):
         return pd.DataFrame(self._data)
+    
+    def get_csv(self, filename: str = "results.csv"):
+        df = self.get_dataframe()
+        df.to_csv(filename, index=False)
+        print(f"Data successfully saved to {filename}")

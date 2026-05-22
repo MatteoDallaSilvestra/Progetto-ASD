@@ -1,8 +1,52 @@
-
+import math
 from trees.BST import BST
-from trees.RBT import RBT
 from trees.AVL import AVL
+from trees.RBT import RBT
 from utils.RandomKeysHandler import RandomKeyHandler
+from utils.MeasureTool import measure_insertion_time
+
+def main():
+    n_min = 1000
+    n_max = 10000000
+    num_punti = 100
+    
+    # rogressione geometrica
+    c = (n_max / n_min) ** (1 / (num_punti - 1))
+    
+    # Generazione 100 valori di n 
+    valori_n = [int(n_min * (c ** i)) for i in range(num_punti)]
+    
+    # rimozione eventuali duplicati causati dall'arrotondamento per difetto
+    #valori_n = sorted(list(set(valori_n)))
+    
+    handler = RandomKeyHandler()
+    alberi_da_testare = [
+        ("BST", BST),
+        ("AVL", AVL),
+        ("RBT", RBT)
+    ]
+    
+    print(f"{'n':>10} | {'BST (s)':>12} | {'AVL (s)':>12} | {'RBT (s)':>12}")
+    print("-" * 55)
+
+    for n in valori_n:
+        risultati_n = {"n": n}
+        
+        for nome, classe_albero in alberi_da_testare:
+
+            mediana = measure_insertion_time(classe_albero, n, handler)
+            risultati_n[nome] = mediana
+        
+        print(f"{n:10d} | {risultati_n['BST']:12.8f} | {risultati_n['AVL']:12.8f} | {risultati_n['RBT']:12.8f}")
+        
+        # TO DO: salvare i dati
+
+if __name__ == "__main__":
+    main()
+
+
+
+'''
 
 def generateAVL():
         tree = AVL()
@@ -56,11 +100,11 @@ def generateRBT():
         tree.insert(47)
         tree.print_tree()
         print("\n\n\n")
-        tree.delete(10)
-        tree.delete(20)
-        tree.delete(30)
-        tree.delete(40)
-        tree.delete(50)
+        tree.remove(10)
+        tree.remove(20)
+        tree.remove(30)
+        tree.remove(40)
+        tree.remove(50)
         tree.print_tree()
 
 
@@ -77,19 +121,4 @@ def random_gen():
     tree.print_tree()
     random_generator.remove_key(tree)
 
-    
-    
-    
-   
-    
-class main:
-    def __init__(self):
-        #random_gen()
-        generateRBT()
-        
-       
-    
-    
-
-if __name__ == "__main__":
-    main()
+'''

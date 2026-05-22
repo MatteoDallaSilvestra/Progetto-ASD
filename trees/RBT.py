@@ -112,7 +112,7 @@ class RBT(BinaryTree):
             self.print_tree(node.left, level + 1)
         
 
-    def delete(self, value):
+    def remove(self, value):
         # ricerca del nodo da rimuovere
         z = self.find(value)
         if z is None:

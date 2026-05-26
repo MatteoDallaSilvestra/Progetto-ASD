@@ -33,15 +33,7 @@ def main():
     # Generazione 100 valori di n 
     valori_n = [int(n_min * (c ** i)) for i in range(num_punti)]
     
-    # rimozione eventuali duplicati causati dall'arrotondamento per difetto
-    #valori_n = sorted(list(set(valori_n)))
-    
     handler = RandomKeyHandler()
-    alberi_da_testare = [
-        ("BST", BST),
-        ("AVL", AVL),
-        ("RBT", RBT)
-    ]
 
     tutti_i_risultati = []
     

@@ -5,7 +5,6 @@ from trees.RBT import RBT
 from utils.RandomKeysHandler import RandomKeyHandler
 from utils.MeasureTool import measure_insertion_time
 from utils.DataStorage import DataStorage
-import csv
 
 
 def main():

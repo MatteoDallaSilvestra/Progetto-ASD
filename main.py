@@ -4,22 +4,8 @@ from trees.AVL import AVL
 from trees.RBT import RBT
 from utils.RandomKeysHandler import RandomKeyHandler
 from utils.MeasureTool import measure_insertion_time
+from utils.DataStorage import DataStorage
 import csv
-
-
-def save_to_csv(filename, results):
-
-    headers = ['n', 'BST', 'AVL', 'RBT']
-    
-    try:
-        with open(filename, mode='w', newline='', encoding='utf-8') as file:
-            writer = csv.writer(file)
-            writer.writerow(headers)
-            writer.writerows(results)
-            
-        print(f"Dati salvati con successo in {filename}")
-    except Exception as e:
-        print(f"Errore durante il salvataggio: {e}")
 
 
 def main():
@@ -32,9 +18,8 @@ def main():
     
     # Generazione 100 valori di n 
     valori_n = [int(n_min * (c ** i)) for i in range(num_punti)]
-    
-    handler = RandomKeyHandler()
 
+    handler = RandomKeyHandler()
     tutti_i_risultati = []
     
     print(f"{'n':>10} | {'BST (s)':>12} | {'AVL (s)':>12} | {'RBT (s)':>12}")
@@ -50,7 +35,7 @@ def main():
         
         print(f"{n:10d} | {t_bst:12.8f} | {t_avl:12.8f} | {t_rbt:12.8f}")
         
-    save_to_csv("results.csv",tutti_i_risultati )
+    DataStorage.save_to_csv("results.csv",tutti_i_risultati )
 
 
 if __name__ == "__main__":

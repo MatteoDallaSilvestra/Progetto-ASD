@@ -1,21 +1,20 @@
 # Stores data in a dataframe and allows for easy access and manipulation of the data.
 import pandas as pd
+import csv
 
 class DataStorage:
-    def __init__(self):
-        self._data = []
     
-    def add_data(self, tree_type: str, n: int, insert_time: float):
-        self._data.append({
-            "Tree Type": tree_type,
-            "n": n,
-            "Insert Time": insert_time
-        })
+    @staticmethod
+    def save_to_csv(filename, results):
 
-    def get_dataframe(self):
-        return pd.DataFrame(self._data)
-    
-    def get_csv(self, filename: str = "results.csv"):
-        df = self.get_dataframe()
-        df.to_csv(filename, index=False)
-        print(f"Data successfully saved to {filename}")
+        headers = ['n', 'BST', 'AVL', 'RBT']
+        
+        try:
+            with open(filename, mode='w', newline='', encoding='utf-8') as file:
+                writer = csv.writer(file)
+                writer.writerow(headers)
+                writer.writerows(results)
+                
+            print(f"Dati salvati con successo in {filename}")
+        except Exception as e:
+            print(f"Errore durante il salvataggio: {e}")

@@ -1,13 +1,28 @@
 import math
 from trees.BST import BST
-from trees.AVL import AVL
-from trees.RBT import RBT
+#from trees.AVL import AVL
+#from trees.RBT import RBT
 from utils.RandomKeysHandler import RandomKeyHandler
 from utils.MeasureTool import measure_insertion_time
 from utils.DataStorage import DataStorage
 
 
 def main():
+
+    tree = BST()
+    tree.insert(10)
+    tree.insert(5)  
+    tree.insert(15)
+    tree.insert(3)
+    tree.insert(7)
+    tree.insert(12)
+    tree.insert(18)
+    tree.remove(10)
+
+    print(tree.__str__())
+
+
+'''
     n_min = 1000
     n_max = 10000000
     num_punti = 100
@@ -36,6 +51,7 @@ def main():
         
     DataStorage.save_to_csv("results.csv",tutti_i_risultati )
 
+'''
 
 if __name__ == "__main__":
     main()

@@ -112,92 +112,7 @@ class BST():
                 else:
                     curr = curr.right
 
-    def remove(self, node):
-        if node is None: return
-
-        if node.left is None and node.right is None:
-            parent = node.parent
-            if parent is None:
-                self.root = None
-            elif parent.left == node:
-                self.detach_left(parent)
-            else:
-                self.detach_right(parent)
-
-        elif node.left is None or node.right is None:
-            child = node.left if node.left is not None else node.right
-            parent = node.parent
-            if parent is None:
-                self.root = child
-                child.parent = None
-            elif parent.left == node:
-                self.detach_left(parent)
-                self.attach_left(parent, child)
-            else:
-                self.detach_right(parent)
-                self.attach_right(parent, child)
-        else:
-            successor = self.nxt(node)
-            left_child = self.detach_left(node)
-            right_child = self.detach_right(node)
-            parent = node.parent
-            if parent is None:
-                self.root = successor
-                successor.parent = None
-            elif parent.left == node:
-                self.detach_left(parent)
-                self.attach_left(parent, successor)
-            else:
-                self.detach_right(parent)
-                self.attach_right(parent, successor)
-            self.attach_left(successor, left_child)
-            self.attach_right(successor, right_child)
-                
-                   
-        
-        
-
-    def rotate_left(self, node):
-        if node is None or node.right is None: return
-        
-        y = self.detach_right(node)
-        beta = self.detach_left(y)
-        
-        parent = node.parent
-        if parent is None:
-            self.root = y
-        elif parent.left == node:
-            self.detach_left(parent)
-            self.attach_left(parent, y)
-        else:
-            self.detach_right(parent)
-            self.attach_right(parent, y)
-            
-        self.attach_right(node, beta)
-        self.attach_left(y, node)
-
-    def rotate_right(self, node):
-        if node is None or node.left is None: return
-        
-        x = self.detach_left(node)
-        beta = self.detach_right(x)
-        
-        parent = node.parent
-        if parent is None:
-            self.root = x
-        elif parent.left == node:
-            self.detach_left(parent)
-            self.attach_left(parent, x)
-        else:
-            self.detach_right(parent)
-            self.attach_right(parent, x)
-            
-        self.attach_left(node, beta)
-        self.attach_right(x, node)
-
-
-'''
-def remove(self, n):# rimozione nodo n da albero
+    def remove(self, n):# rimozione nodo n da albero
         if n is None: # caso in cui il nodo sia nullo
             return
         if n.left is None or n.right is None: # controllo se uno dei due figli di n è nullo
@@ -217,4 +132,23 @@ def remove(self, n):# rimozione nodo n da albero
         else: # caso in cui y è il figlio destro
             y.parent.right = x
         if y != n: # caso in cui ho 2 figli
-            n.key = y.key'''
+            n.key = y.key
+
+    def rotate_right(self, node):
+        if node is None or node.left is None: return
+        
+        x = self.detach_left(node)
+        beta = self.detach_right(x)
+        
+        parent = node.parent
+        if parent is None:
+            self.root = x
+        elif parent.left == node:
+            self.detach_left(parent)
+            self.attach_left(parent, x)
+        else:
+            self.detach_right(parent)
+            self.attach_right(parent, x)
+            
+        self.attach_left(node, beta)
+        self.attach_right(x, node)

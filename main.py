@@ -1,6 +1,6 @@
 
 from trees.BST import BST
-from trees.AVL import AVL
+#from trees.AVL import AVL
 from trees.BST import TreeNode
 #from trees.RBT import RBT
 from utils.RandomKeysHandler import RandomKeyHandler
@@ -32,9 +32,11 @@ def main():
 
     print(tree.__str__())
 
-    
+    tree.remove(nodes[9])  # 10
+    tree.remove(nodes[10]) # 11
+    tree.remove(nodes[11]) # 12
 
-
+    print(tree.__str__())
 
 
 '''

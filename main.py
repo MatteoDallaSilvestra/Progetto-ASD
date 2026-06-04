@@ -32,19 +32,7 @@ def main():
 
     print(tree.__str__())
 
-    tree.remove(nodes[9])  # 10
-
-    print(tree.__str__())
-
-    tree.remove(nodes[10]) # 11
-
-    print(tree.__str__())
-    tree.remove(nodes[11]) # 12
-
-    print(tree.__str__())
-    tree.remove(nodes[12]) # 13
-
-    print(tree.__str__())
+    
 
 
 

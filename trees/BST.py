@@ -112,27 +112,56 @@ class BST():
                 else:
                     curr = curr.right
 
-    def remove(self, n):# rimozione nodo n da albero
-        if n is None: # caso in cui il nodo sia nullo
+    def remove(self, n):
+        if n is None:
             return
-        if n.left is None or n.right is None: # controllo se uno dei due figli di n è nullo
-            y = n # y diventa nodo da eliminare
+        
+        # y diventa nodo da eliminare
+        if n.left is None or n.right is None:
+            y = n 
         else:
-            y = self.nxt(n)# lo sostituisco col suo successore
-        if y.left is not None:# se il figlio sinistro non è nullo
-            x = y.left #salvo figlio sinistro
+            y = self.nxt(n)
+    
+        #chi prenderà il posto
+        if y.left is not None:
+            x = y.left
         else:
-            x = y.right #altrimenti salvo quello destro
-        if x is not None: # controllo che x non sia nullo
+            x = y.right
+
+        if x is not None:
             x.parent = y.parent # collego al genitore di y
+
+
         if y.parent is None: # se scopro che il genitore non è valido
             self.root = x # allora x deve diventare la root
-        elif y == y.parent.left: #caso in cui y è il figlio sinistro
+        elif y == y.parent.left: #collego il padre al figlio
             y.parent.left = x
-        else: # caso in cui y è il figlio destro
+        else:
             y.parent.right = x
+    
         if y != n: # caso in cui ho 2 figli
             n.key = y.key
+
+    def rotate_left(self, node):
+        if node is None or node.right is None:
+            return
+
+        y = self.detach_right(node)
+        beta = self.detach_left(y)
+
+        parent = node.parent
+
+        if parent is None:
+            self.root = y
+        elif parent.left == node:
+            self.detach_left(parent)
+            self.attach_left(parent, y)
+        else:
+            self.detach_right(parent)
+            self.attach_right(parent, y)
+
+        self.attach_right(node, beta)
+        self.attach_left(y, node)
 
     def rotate_right(self, node):
         if node is None or node.left is None: return

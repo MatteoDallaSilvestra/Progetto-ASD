@@ -13,7 +13,7 @@ class TreeNode:
             left.parent = self
         if right is not None:
             right.parent = self
-    
+
 def height(node):
     if node == None:
         return 0
@@ -31,80 +31,31 @@ class AVL(BST):
     def __init__(self, root = None):
         super().__init__(root)
 
-    def insert(self, key):
-        new_node = TreeNode(key)
-        if self.root is None:
-            self.root = new_node
-            return
+    def _balance_factor(self, node):
+        return height(node.left) - height(node.right)
 
-        current_node = self.root
-        while True:
-            if key < current_node.key:
-                if current_node.left is None:
-                    self.attach_left(current_node, new_node)
-                    break
-                current_node = current_node.left
-            else:
-                if current_node.right is None:
-                    self.attach_right(current_node, new_node)
-                    break
-                current_node = current_node.right
+    def _rebalance(self, node):
+        while node is not None:
+            invalidate_height(node)
+            balance = self._balance_factor(node)
 
-        def rebalance(node):
-            while node is not None:
-                invalidate_height(node)
-                balance = height(node.left) - height(node.right)
+            if balance > 1:
+                if self._balance_factor(node.left) < 0:
+                    self.rotate_left(node.left)
+                self.rotate_right(node)
+            elif balance < -1:
+                if self._balance_factor(node.right) > 0:
+                    self.rotate_right(node.right)
+                self.rotate_left(node)
 
-                if balance > 1:
-                    if height(node.left.left) >= height(node.left.right):
-                        self.rotate_right(node)
-                    else:
-                        self.rotate_left(node.left)
-                        self.rotate_right(node)
-                elif balance < -1:
-                    if height(node.right.right) >= height(node.right.left):
-                        self.rotate_left(node)
-                    else:
-                        self.rotate_right(node.right)
-                        self.rotate_left(node)
+            node = node.parent
 
-                node = node.parent
+    def insert(self, node):
+        super().insert(node)
+        self._rebalance(node)
 
-        rebalance(new_node.parent)
 
-    def remove(self, key):
-        node_to_remove = self.find(key)
-        if node_to_remove is None:
-            return
-
-        start_node = node_to_remove.parent
-        if node_to_remove.left is not None and node_to_remove.right is not None:
-            successor = self.nxt(node_to_remove.right)
-            start_node = successor.parent if successor.parent is not None else node_to_remove
-
-        super().remove(key)
-
-        if start_node is None:
-            start_node = self.root
-
-        def rebalance(node):
-            while node is not None:
-                invalidate_height(node)
-                balance = height(node.left) - height(node.right)
-
-                if balance > 1:
-                    if height(node.left.left) >= height(node.left.right):
-                        self.rotate_right(node)
-                    else:
-                        self.rotate_left(node.left)
-                        self.rotate_right(node)
-                elif balance < -1:
-                    if height(node.right.right) >= height(node.right.left):
-                        self.rotate_left(node)
-                    else:
-                        self.rotate_right(node.right)
-                        self.rotate_left(node)
-
-                node = node.parent
-
-        rebalance(start_node)
+    def remove(self, node):
+        super().remove(node)
+        parent = node.parent
+        self._rebalance(parent)

@@ -1,9 +1,19 @@
 #Class RBT, for Red-Black Tree
 #Contains the implementation of Red-Black Tree and its operations
-from .RBTreeNode import RBTreeNode
-from .BinaryTree import BinaryTree
+from .BST import BST
 
-class RBT(BinaryTree):
+class RBTreeNode:
+    def __init__(self, key, color = 'red', left = None, right = None):
+        super().__init__(key, left, right)
+        self.color = color
+        self.parent = None
+        if left is not None:
+            left.parent = self
+        if right is not None:
+            right.parent = self
+
+
+class RBT:
 
     def __init__(self, root=None):
         super().__init__(root)

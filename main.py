@@ -1,6 +1,7 @@
-import math
+
 from trees.BST import BST
 from trees.AVL import AVL
+from trees.BST import TreeNode
 #from trees.RBT import RBT
 from utils.RandomKeysHandler import RandomKeyHandler
 from utils.MeasureTool import measure_insertion_time
@@ -9,45 +10,31 @@ from utils.DataStorage import DataStorage
 
 def main():
 
-    tree = AVL()
-    tree.insert(10)
-    tree.insert(11)
-    tree.insert(12)
-    tree.insert(13)
-    tree.insert(15)
-    tree.insert(17)
-    tree.insert(18)
-    tree.insert(20)
-    tree.insert(5)  
-    tree.insert(3)
-    tree.insert(7)
-    tree.insert(1)
-    tree.insert(4)
-    tree.insert(6)
-    tree.insert(8)
-    
-    tree2 = BST()
-    tree2.insert(10)
-    tree2.insert(11)
-    tree2.insert(12)
-    tree2.insert(13)
-    tree2.insert(15)
-    tree2.insert(17)
-    tree2.insert(18)
-    tree2.insert(20)
-    tree2.insert(5)  
-    tree2.insert(3)
-    tree2.insert(7)
-    tree2.insert(1)
-    tree2.insert(4)
-    tree2.insert(6)
-    tree2.insert(8)
-    
+    nodes = [TreeNode(i) for i in range(1, 60)]
 
+    tree = BST()
+    tree.insert(nodes[9])  # 10
+    tree.insert(nodes[10]) # 11
+    tree.insert(nodes[11]) # 12
+    tree.insert(nodes[12]) # 13
+    tree.insert(nodes[13]) # 15
+    tree.insert(nodes[14]) # 17
+    tree.insert(nodes[15]) # 18
+    tree.insert(nodes[16]) # 20
+    tree.insert(nodes[4])   # 5
+    tree.insert(nodes[2])   # 3
+    tree.insert(nodes[6])   # 7
+    tree.insert(nodes[0])   # 1
+    tree.insert(nodes[3])   # 4
+    tree.insert(nodes[5])   # 6
+    tree.insert(nodes[7])   # 8
 
 
     print(tree.__str__())
-    print(tree2.__str__())
+
+    
+
+
 
 
 '''

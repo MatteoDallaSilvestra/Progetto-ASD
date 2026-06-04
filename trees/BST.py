@@ -113,42 +113,49 @@ class BST():
                     curr = curr.right
 
     def remove(self, node):
-        
-        if node is None:
-            return
-        
-        parent = node.parent
+        if node is None: return
 
-        # CASO A: Il nodo è la RADICE
-        if parent is None:
-            if node.left is None and node.right is None:
+        if node.left is None and node.right is None:
+            parent = node.parent
+            if parent is None:
                 self.root = None
-            elif node.left is None or node.right is None:
-                child = node.left if node.left else node.right
-                child.parent = None
-                self.root = child
-            else:
-                succ = self.nxt(node)
-                node.key = succ.key
-                self.remove(succ)
-            return
-
-        # CASO B: Il nodo NON è la radice
-        direction = "left" if parent.left == node else "right"
-
-        if node.left is None or node.right is None:
-            child_subtree = self.detach_right(node) if node.left is None else self.detach_left(node)
-            
-            if direction == "left":
+            elif parent.left == node:
                 self.detach_left(parent)
-                self.attach_left(parent, child_subtree)
             else:
                 self.detach_right(parent)
-                self.attach_right(parent, child_subtree)
+
+        elif node.left is None or node.right is None:
+            child = node.left if node.left is not None else node.right
+            parent = node.parent
+            if parent is None:
+                self.root = child
+                child.parent = None
+            elif parent.left == node:
+                self.detach_left(parent)
+                self.attach_left(parent, child)
+            else:
+                self.detach_right(parent)
+                self.attach_right(parent, child)
         else:
-            succ = self.nxt(node)
-            node.key = succ.key
-            self.remove(succ)
+            successor = self.nxt(node)
+            left_child = self.detach_left(node)
+            right_child = self.detach_right(node)
+            parent = node.parent
+            if parent is None:
+                self.root = successor
+                successor.parent = None
+            elif parent.left == node:
+                self.detach_left(parent)
+                self.attach_left(parent, successor)
+            else:
+                self.detach_right(parent)
+                self.attach_right(parent, successor)
+            self.attach_left(successor, left_child)
+            self.attach_right(successor, right_child)
+                
+                   
+        
+        
 
     def rotate_left(self, node):
         if node is None or node.right is None: return

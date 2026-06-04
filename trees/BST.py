@@ -187,3 +187,27 @@ class BST():
             
         self.attach_left(node, beta)
         self.attach_right(x, node)
+
+
+'''
+def remove(self, n):# rimozione nodo n da albero
+        if n is None: # caso in cui il nodo sia nullo
+            return
+        if n.left is None or n.right is None: # controllo se uno dei due figli di n è nullo
+            y = n # y diventa nodo da eliminare
+        else:
+            y = self.nxt(n)# lo sostituisco col suo successore
+        if y.left is not None:# se il figlio sinistro non è nullo
+            x = y.left #salvo figlio sinistro
+        else:
+            x = y.right #altrimenti salvo quello destro
+        if x is not None: # controllo che x non sia nullo
+            x.parent = y.parent # collego al genitore di y
+        if y.parent is None: # se scopro che il genitore non è valido
+            self.root = x # allora x deve diventare la root
+        elif y == y.parent.left: #caso in cui y è il figlio sinistro
+            y.parent.left = x
+        else: # caso in cui y è il figlio destro
+            y.parent.right = x
+        if y != n: # caso in cui ho 2 figli
+            n.key = y.key'''

@@ -1,4 +1,6 @@
 from trees.BST import BST
+from trees.AVL import AVL
+from trees.RBT import RBT
 #from trees.AVL import AVL  # Scommentato per il test prestazionale
 from trees.BST import TreeNode
 #from trees.RBT import RBT  # Scommentato per il test prestazionale
@@ -7,11 +9,11 @@ from utils.MeasureTool import measure_insertion_time
 from utils.DataStorage import DataStorage
 
 def main():
-    """
+
     # PARTE 1: TEST MANUALE (Commentata come richiesto)
     nodes = [TreeNode(i) for i in range(1, 60)]
 
-    tree = BST()
+    tree = AVL()
     tree.insert(nodes[9])  # 10
     tree.insert(nodes[10]) # 11
     tree.insert(nodes[11]) # 12
@@ -29,15 +31,20 @@ def main():
     tree.insert(nodes[7])   # 8
 
     print("Tree prima della rimozione:")
+    for node in nodes[:17]:
+        print(node.key, end=' ')
+    print()
     print(tree.__str__())
 
     tree.remove(nodes[9])  # 10
-    tree.remove(nodes[10]) # 11
     tree.remove(nodes[11]) # 12
 
     print("Tree dopo la rimozione:")
+    for node in nodes[:17]:
+        print(node.key, end=' ')
+    print()
     print(tree.__str__())
-    """
+'''
 
     # PARTE 2: TEST PRESTAZIONALE (IMPLEMENTAZIONE COMPLETA)
     n_min = 1000
@@ -60,8 +67,8 @@ def main():
     for n in valori_n:
         # Misurazione tempi di inserimento per le tre strutture
         t_bst = measure_insertion_time(BST, n, handler)
-        #t_avl = measure_insertion_time(AVL, n, handler)
-        #t_rbt = measure_insertion_time(RBT, n, handler)
+        t_avl = measure_insertion_time(AVL, n, handler)
+        t_rbt = measure_insertion_time(RBT, n, handler)
 
         # Memorizzazione risultati
         tutti_i_risultati.append((n, t_bst, t_avl, t_rbt))
@@ -72,6 +79,8 @@ def main():
     # Salvataggio finale su file CSV
     DataStorage.save_to_csv("results.csv", tutti_i_risultati)
     print("\nSimulazione completata. Risultati salvati in 'results.csv'.")
+
+'''
 
 if __name__ == "__main__":
     main()

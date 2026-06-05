@@ -112,35 +112,40 @@ class BST():
                 else:
                     curr = curr.right
 
-    def remove(self, n):
-        if n is None:
+    def remove(self, node):
+        if node is None:
             return
         
         # y diventa nodo da eliminare
-        if n.left is None or n.right is None:
-            y = n 
+        if node.left is None or node.right is None:
+            x = node 
         else:
-            y = self.nxt(n)
+            x = self.nxt(node)
     
         #chi prenderà il posto
-        if y.left is not None:
-            x = y.left
+        if x.left is not None:
+            v = x.left
         else:
-            x = y.right
+            v = x.right
 
-        if x is not None:
-            x.parent = y.parent # collego al genitore di y
+        if v is not None:
+            v.parent = x.parent # collego al genitore di y
 
 
-        if y.parent is None: # se scopro che il genitore non è valido
-            self.root = x # allora x deve diventare la root
-        elif y == y.parent.left: #collego il padre al figlio
-            y.parent.left = x
+        if x.parent is None: # se scopro che il genitore non è valido
+            self.root = v # allora x deve diventare la root
+        elif x == x.parent.left: #collego il padre al figlio
+            x.parent.left = v
         else:
-            y.parent.right = x
+            x.parent.right = v
     
-        if y != n: # caso in cui ho 2 figli
-            n.key = y.key
+        if x != node: # caso in cui ho 2 figli
+            
+            temp = node.key
+            node.key = x.key
+            x.key = temp
+        
+
 
     def rotate_left(self, node):
         if node is None or node.right is None:

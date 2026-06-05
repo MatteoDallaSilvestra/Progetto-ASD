@@ -56,8 +56,13 @@ class AVL(BST):
 
 
     def remove(self, node):
-        (a,b) = super().remove(node)
         parent = node.parent
+        if node is not None and node.left is not None and node.right is not None:
+            successor = self.nxt(node)
+            if successor is not None:
+                parent = successor.parent
+
+        (a,b) = super().remove(node)
         self._rebalance(parent)
         return (a,b)
       

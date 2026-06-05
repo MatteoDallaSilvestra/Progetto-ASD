@@ -56,6 +56,8 @@ class AVL(BST):
 
 
     def remove(self, node):
-        super().remove(node)
+        (a,b) = super().remove(node)
         parent = node.parent
         self._rebalance(parent)
+        return (a,b)
+      

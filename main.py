@@ -10,40 +10,33 @@ from utils.DataStorage import DataStorage
 
 def main():
 
-    # PARTE 1: TEST MANUALE (Commentata come richiesto)
-    nodes = [TreeNode(i) for i in range(1, 60)]
-
+    handler = RandomKeyHandler()
     tree = AVL()
-    tree.insert(nodes[9])  # 10
-    tree.insert(nodes[10]) # 11
-    tree.insert(nodes[11]) # 12
-    tree.insert(nodes[12]) # 13
-    tree.insert(nodes[13]) # 14 (indice 13 è 14 se range parte da 1)
-    tree.insert(nodes[14]) # 15
-    tree.insert(nodes[15]) # 16
-    tree.insert(nodes[16]) # 17
-    tree.insert(nodes[4])   # 5
-    tree.insert(nodes[2])   # 3
-    tree.insert(nodes[6])   # 7
-    tree.insert(nodes[0])   # 1
-    tree.insert(nodes[3])   # 4
-    tree.insert(nodes[5])   # 6
-    tree.insert(nodes[7])   # 8
-
-    print("Tree prima della rimozione:")
-    for node in nodes[:17]:
-        print(node.key, end=' ')
-    print()
+    handler.update_working_set(10)
+    handler.populateTree(tree)
+    print("Albero AVL popolato con 10 nodi:")
     print(tree.__str__())
 
-    tree.remove(nodes[9])  # 10
-    tree.remove(nodes[11]) # 12
-
-    print("Tree dopo la rimozione:")
-    for node in nodes[:17]:
-        print(node.key, end=' ')
-    print()
+    node_to_insert = handler.get_node_to_insert()
+    print(f"Inserimento chiave {node_to_insert.key}...")
+    tree.insert(node_to_insert)
+    print("Albero AVL dopo inserimento:")
     print(tree.__str__())
+    
+
+    handler.remove_key(tree)
+    print("Albero AVL dopo rimozione di una chiave a caso:")
+    print(tree.__str__())
+    print(handler.print_working_set())
+    print(handler.print_working_nodes())
+    
+
+
+
+
+
+
+
 '''
 
     # PARTE 2: TEST PRESTAZIONALE (IMPLEMENTAZIONE COMPLETA)

@@ -113,6 +113,9 @@ class BST():
                     curr = curr.right
 
     def remove(self, node):
+
+        (a,b) = (None, None)
+
         if node is None:
             return
         
@@ -144,7 +147,10 @@ class BST():
             temp = node.key
             node.key = x.key
             x.key = temp
-        
+
+            (a,b) = (node.key, x.key) # scambio i valori di y e x, e aggiorno y al nodo da eliminare (che ora contiene il valore da eliminare)
+
+        return (a,b)
 
 
     def rotate_left(self, node):

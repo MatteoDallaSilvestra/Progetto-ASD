@@ -16,11 +16,11 @@ def measure_insertion_time(tree_type, n, key_handler):
     # Misurazioni
     for _ in range(100):
         # Chiave esterna da inserire
-        key_to_insert = key_handler.get_key_to_insert()
+        node_to_insert = key_handler.get_node_to_insert()
         
         # MISURAZIONE CRONOMETRATA
         start = time.perf_counter()
-        tree.insert(key_to_insert)
+        tree.insert(node_to_insert)
         end = time.perf_counter()
         
         times.append(end - start)

@@ -32,11 +32,19 @@ class AVL(BST):
         super().__init__(root)
 
     def _balance_factor(self, node):
+        if node.left is None and node.right is None:
+            return 0
         return height(node.left) - height(node.right)
 
     def _rebalance(self, node):
+        def recompute_heights(subtree):
+            if subtree is None:
+                return 0
+            subtree.height = 1 + max(recompute_heights(subtree.left), recompute_heights(subtree.right))
+            return subtree.height
+
         while node is not None:
-            invalidate_height(node)
+            recompute_heights(self.root)
             balance = self._balance_factor(node)
 
             if balance > 1:

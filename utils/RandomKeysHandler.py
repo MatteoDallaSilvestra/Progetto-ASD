@@ -59,21 +59,3 @@ class RandomKeyHandler:
 
     def print_working_nodes(self):
         print("Working nodes:", [node.key for node in self.working_nodes])
-
-
-
-
-    ''''
-                                        N7:6   
-            N6:7
-                5
-       4      
-            3
-                2
-                    1
-
-
-        ws : [4,3,6,7,5,2,    1]
-        Ns : [N1,N2, ...., N7]
-    
-    '''

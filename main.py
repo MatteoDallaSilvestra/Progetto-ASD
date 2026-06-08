@@ -10,6 +10,9 @@ from utils.DataStorage import DataStorage
 
 def main():
 
+    provaAVL()
+
+'''
     handler = RandomKeyHandler()
     tree = AVL()
     handler.update_working_set(10)
@@ -29,7 +32,7 @@ def main():
     print(tree.__str__())
     print(handler.print_working_set())
     print(handler.print_working_nodes())
-    
+''' 
 
 
 
@@ -74,6 +77,15 @@ def main():
     print("\nSimulazione completata. Risultati salvati in 'results.csv'.")
 
 '''
+
+
+def provaAVL():
+    nodes = [TreeNode(i) for i in range(1, 11)]
+    avl_tree = AVL()
+    for node in nodes:
+        avl_tree.insert(node)
+        print(f"Inserito {node.key}:")
+        print(avl_tree.__str__())
 
 if __name__ == "__main__":
     main()

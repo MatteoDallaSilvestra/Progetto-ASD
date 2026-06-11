@@ -171,6 +171,8 @@ class RBTree (BST):
         # le altezze potrebbero essere sballate
         if y_original_color == "black":
             self.remove_fixup(x, p)
+        
+        return (None, None)
 
     def replace_node(self, u, v):
         #Sostituisce il sottoalbero con radice u con quello con radice v

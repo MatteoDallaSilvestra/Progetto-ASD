@@ -16,36 +16,15 @@ class RBTree (BST):
 
 
     def insert(self, node):
-        
         if isinstance(node, int):
             node = TreeNode(node)
 
-        y = None
-        x = self.root
+        node.color = 'red'
         
-        # Ricerca BST standard per trovare la posizione di inserimento (foglia)
-        while x is not None:
-            y = x
-            if node.key < x.key:
-                x = x.left
-            else:
-                x = x.right
-                
-        # Aggancio del nodo al padre y
-        node.parent = y
-        if y is None:
-            self.root = node
-        elif node.key < y.key:
-            y.left = node
-        else:
-            y.right = node
-            
-        # Inizializzazione delle foglie e del colore
-        node.left = None
-        node.right = None
-        node.color = 'red' #inizialmente colorato di rosso
+        #DELEGATO al BST
+        super().insert(node)
         
-        # Ripristino delle proprietà Red-Black
+        # 3. Ripristino delle proprietà Red-Black
         self.rb_insert_fixup(node)
 
 
@@ -122,74 +101,42 @@ class RBTree (BST):
         
 
     def remove(self, node):
-
         if isinstance(node, int):
             node = self.find(node)
 
         if node is None:
-            return
+            return None
 
-        # Tengo traccia del colore originale del nodo che viene effettivamente rimosso
-        # o spostato, per capire se violiamo le proprietà Red-Black
-        z = node
-        y = z
+        if node.left is None or node.right is None:
+            y = node
+        else:
+            y = self.nxt(node)
+
+        # 2. Salvato lo stato ORIGINALE prima che il BST lo modifichi
         y_original_color = color(y)
+        x = y.left if y.left is not None else y.right
+        p = y.parent
         
-        # Le variabili x e p (parent) servono per capire da dove partire per il fixup
-        x = None
-        p = None
 
+        is_left_child = (y == p.left) if p else False
 
-        # x sarà il nodo che prende il posto di quello rimosso
-        if z.left is None:
-            x = z.right
-            p = z.parent
-            self.replace_node(z, z.right)
-        elif z.right is None:
-            x = z.left
-            p = z.parent
-            self.replace_node(z, z.left)
-        else:
-            # Caso con due figli: si cerca il successore (il minimo nel sottoalbero destro)
-            y = self.nxt(z)
-            y_original_color = color(y)
-            x = y.right
-            
-            if y.parent == z:
-                p = y
-            else:
-                p = y.parent
-                self.replace_node(y, y.right)
-                y.right = z.right
-                y.right.parent = y
+        # 3. DELEGATO al BST
+        res = super().remove(node)
 
-            self.replace_node(z, y)
-            y.left = z.left
-            y.left.parent = y
-            y.color = color(z)
-
-        # le altezze potrebbero essere sballate
+        # 4. Ripristino RBT usando lo stato salvato
         if y_original_color == "black":
-            self.remove_fixup(x, p)
-        
-        return (None, None)
+            self.remove_fixup(x, p, is_left_child)
 
-    def replace_node(self, u, v):
-        #Sostituisce il sottoalbero con radice u con quello con radice v
-        if u.parent is None:
-            self.root = v
-        elif u == u.parent.left:
-            u.parent.left = v
-        else:
-            u.parent.right = v
-        if v:
-            v.parent = u.parent
+        return res
 
 
-    def remove_fixup(self, x, p):
+    def remove_fixup(self, x, p, is_left=None):
         while x != self.root and color(x) == 'black':
             
-            if x == p.left:
+            left_side = is_left if is_left is not None else (x == p.left)
+            is_left = None # Resettiamo per le iterazioni successive
+
+            if left_side:
                 f = p.right
                 # CASO ANTIPATICO: Il fratello è rosso
                 if color(f) == "red":

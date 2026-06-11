@@ -9,6 +9,7 @@ class TreeNode:
         if right is not None:
             right.parent = self
 
+
 class BST():
     def __init__(self, root = None):
         self.root = root
@@ -98,6 +99,7 @@ class BST():
             return
 
         curr = self.root
+        
         while True:
             if node.key < curr.key:
                 if curr.left is None:

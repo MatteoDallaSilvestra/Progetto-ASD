@@ -1,108 +1,107 @@
 #Class RBT, for Red-Black Tree
 #Contains the implementation of Red-Black Tree and its operations
-from .BST import BST
 
-class RBTreeNode:
-    def __init__(self, key, color = 'red', left = None, right = None):
-        super().__init__(key, left, right)
-        self.color = color
-        self.parent = None
-        if left is not None:
-            left.parent = self
-        if right is not None:
-            right.parent = self
+from .BST import TreeNode, BST
 
+def color(node):
+    # Ogni nodo che non esiste (None) deve essere considerato NERO
+        return getattr(node, "color", "black") if node is not None else "black"
 
-class RBT:
+class RBTree (BST):
 
     def __init__(self, root=None):
         super().__init__(root)
         if self.root:
             self.root.color = 'black'
 
-    def insert(self, key):
-        new_node = RBTreeNode(key)
-        self.rb_insert(new_node)
 
-    def rb_insert(self, z):
+    def insert(self, node):
+        
+        if isinstance(node, int):
+            node = TreeNode(node)
 
         y = None
         x = self.root
         
-        # Ricerca BST standard per trovare la posizione di inserimento
+        # Ricerca BST standard per trovare la posizione di inserimento (foglia)
         while x is not None:
             y = x
-            if z.key < x.key:
+            if node.key < x.key:
                 x = x.left
             else:
                 x = x.right
                 
-        # Aggancio del nodo z al padre y
-        z.parent = y
+        # Aggancio del nodo al padre y
+        node.parent = y
         if y is None:
-            self.root = z
-        elif z.key < y.key:
-            y.left = z
+            self.root = node
+        elif node.key < y.key:
+            y.left = node
         else:
-            y.right = z
+            y.right = node
             
         # Inizializzazione delle foglie e del colore
-        z.left = None
-        z.right = None
-        z.color = 'red'
+        node.left = None
+        node.right = None
+        node.color = 'red' #inizialmente colorato di rosso
         
         # Ripristino delle proprietà Red-Black
-        self.rb_insert_fixup(z)
+        self.rb_insert_fixup(node)
 
 
-    def rb_insert_fixup(self, z):
+    def rb_insert_fixup(self, x):
 
-        while z.parent is not None and z.parent.color == 'red':
+        while color(x.parent) == "red":
+            y = x.parent
+            z = y.parent
+            
             # PARTE A: Il padre di z è un figlio sinistro
-            if z.parent.parent is not None and z.parent == z.parent.parent.left:
-                y = z.parent.parent.right  # zio
+            if y == z.left:
+                u = z.right  # zio
                 
                 # CASO SFORTUNATO: Zio è ROSSO
-                if y is not None and y.color == 'red':
-                    z.parent.color = 'black'
+                if color(u) == 'red':
                     y.color = 'black'
-                    z.parent.parent.color = 'red'
-                    z = z.parent.parent
+                    if u is not None: u.color = "black"
+                    z.color = "red"
+                    x = z
                     
                 else:
                     # CASO QUASI FORTUNATO: Zio è NERO e z è "interno" (triangolo)
-                    if z == z.parent.right:
-                        z = z.parent
-                        self.rotate_left(z)
+                    if x == y.right:
+                        x = y
+                        self.rotate_left(x)
+                        y = x.parent
+                        z = y.parent
                     
                     # CASO FORTUNATO: Zio è NERO e z è "esterno" (linea)
-                    z.parent.color = 'black'
-                    if z.parent.parent is not None:
-                        z.parent.parent.color = 'red'
-                        self.rotate_right(z.parent.parent)
+                    y.color = "black"
+                    z.color = "red"
+                    self.rotate_right(z)
                     
             # PARTE B: Il padre di z è un figlio destro (Simmetrico)
-            elif z.parent.parent is not None:
-                y = z.parent.parent.left
+            else:
+                u = z.left
                 
                 # CASO SFORTUNATO
-                if y is not None and y.color == 'red':
-                    z.parent.color = 'black'
-                    y.color = 'black'
-                    z.parent.parent.color = 'red'
-                    z = z.parent.parent
+                if color(u) == "red":
+                    y.color = "black"
+                    if u is not None: u.color = "black"
+                    z.color = "red"
+                    x = z
                     
                 else:
                     # CASO QUASI FORTUNATO
-                    if z == z.parent.left:
-                        z = z.parent
-                        self.rotate_right(z)
+                    if x == y.left:
+                        x = y
+                        self.rotate_right(x)
+                        y = x.parent
+                        z = y.parent
                     
                     # CASO FORTUNATO
-                    z.parent.color = 'black'
-                    if z.parent.parent is not None:
-                        z.parent.parent.color = 'red'
-                        self.rotate_left(z.parent.parent)
+                    y.color = "black"
+                    z.color = "red"
+                    self.rotate_left(z)
 
         #la radice deve essere sempre NERA
         self.root.color = 'black'
@@ -122,43 +121,56 @@ class RBT:
             self.print_tree(node.left, level + 1)
         
 
-    def remove(self, value):
-        # ricerca del nodo da rimuovere
-        z = self.find(value)
-        if z is None:
+    def remove(self, node):
+
+        if isinstance(node, int):
+            node = self.find(node)
+
+        if node is None:
             return
 
         # Tengo traccia del colore originale del nodo che viene effettivamente rimosso
         # o spostato, per capire se violiamo le proprietà Red-Black
+        z = node
         y = z
-        y_original_color = y.color
+        y_original_color = color(y)
         
+        # Le variabili x e p (parent) servono per capire da dove partire per il fixup
+        x = None
+        p = None
+
+
         # x sarà il nodo che prende il posto di quello rimosso
         if z.left is None:
             x = z.right
+            p = z.parent
             self.replace_node(z, z.right)
         elif z.right is None:
             x = z.left
+            p = z.parent
             self.replace_node(z, z.left)
         else:
             # Caso con due figli: si cerca il successore (il minimo nel sottoalbero destro)
-            y = self.find_min(z.right)
-            y_original_color = y.color
+            y = self.nxt(z)
+            y_original_color = color(y)
             x = y.right
             
-            if y.parent != z:
+            if y.parent == z:
+                p = y
+            else:
+                p = y.parent
                 self.replace_node(y, y.right)
                 y.right = z.right
                 y.right.parent = y
-                
+
             self.replace_node(z, y)
             y.left = z.left
             y.left.parent = y
-            y.color = z.color
+            y.color = color(z)
 
-        if y_original_color == 'black':
-            # Se x esiste è ora Double-Black
-            self.delete_fix(x if x else z.parent) 
+        # le altezze potrebbero essere sballate
+        if y_original_color == "black":
+            self.remove_fixup(x, p)
 
     def replace_node(self, u, v):
         #Sostituisce il sottoalbero con radice u con quello con radice v
@@ -171,66 +183,66 @@ class RBT:
         if v:
             v.parent = u.parent
 
-    def find_min(self, node):
-        #Trova il nodo con il valore minimo partendo da node
-        while node.left:
-            node = node.left
-        return node
 
-    def delete_fix(self, x):
-        # Logica di ribilanciamento per mantenere le proprietà Red-Black
-        while x and x != self.root and x.color == 'black':
-            if x == x.parent.left:
-                sibling = x.parent.right
+    def remove_fixup(self, x, p):
+        while x != self.root and color(x) == 'black':
+            
+            if x == p.left:
+                f = p.right
                 # CASO ANTIPATICO: Il fratello è rosso
-                if sibling and sibling.color == 'red':
-                    sibling.color = 'black'
-                    x.parent.color = 'red'
-                    self.rotate_left(x.parent)
-                    sibling = x.parent.right
+                if color(f) == "red":
+                    if f is not None: f.color = "black"
+                    p.color = "red"
+                    self.rotate_left(p)
+                    f = p.right
                 
                 # CASO SFORTUNATO: Il fratello è nero e ha entrambi i figli neri
-                if (not sibling.left or sibling.left.color == 'black') and (not sibling.right or sibling.right.color == 'black'):
+                if color(f.left if f else None) == "black" and color(f.right if f else None) == "black":
                     #in un RBT i nodi mancanti sono considerati foglie nere
-                    sibling.color = 'red'
-                    x = x.parent
+                    if f is not None: f.color = "red"
+                    x = p
+                    p = x.parent
                 else:
                     # CASO QUASI FORTUNATO: Il fratello è nero, figlio sinistro rosso, figlio destro nero
-                    if not sibling.right or sibling.right.color == 'black':
-                        if sibling.left: sibling.left.color = 'black'
-                        sibling.color = 'red'
-                        self.rotate_right(sibling)
-                        sibling = x.parent.right
+                    if color(f.right if f else None) == "black":
+                        if f and f.left: f.left.color = "black"
+                        if f: f.color = "red"
+                        self.rotate_right(f)
+                        f = p.right
                     
                     # CASO FORTUNATO: Il fratello è nero e il figlio destro è rosso
-                    sibling.color = x.parent.color
-                    x.parent.color = 'black'
-                    if sibling.right: sibling.right.color = 'black'
-                    self.rotate_left(x.parent)
+                    if f is not None: f.color = color(p)
+                    p.color = "black"
+                    if f and f.right: f.right.color = "black"
+                    self.rotate_left(p)
                     x = self.root
             else:
+
+                f = p.left
+
                 # Speculare a sopra (x è figlio destro)
-                sibling = x.parent.left
-                if sibling and sibling.color == 'red':
-                    sibling.color = 'black'
-                    x.parent.color = 'red'
-                    self.rotate_right(x.parent)
-                    sibling = x.parent.left
+                if color(f) == "red":
+                    if f is not None: f.color = "black"
+                    p.color = "red"
+                    self.rotate_right(p)
+                    f = p.left
                     
-                if (not sibling.left or sibling.left.color == 'black') and (not sibling.right or sibling.right.color == 'black'):
-                    sibling.color = 'red'
-                    x = x.parent
+                if color(f.right if f else None) == "black" and color(f.left if f else None) == "black":
+                    if f is not None: f.color = "red"
+                    x = p
+                    p = x.parent
                 else:
-                    if not sibling.left or sibling.left.color == 'black':
-                        if sibling.right: sibling.right.color = 'black'
-                        sibling.color = 'red'
-                        self.rotate_left(sibling)
-                        sibling = x.parent.left
+                    if color(f.left if f else None) == "black":
+                        if f and f.right: f.right.color = "black"
+                        if f: f.color = "red"
+                        self.rotate_left(f)
+                        f = p.left
                     
-                    sibling.color = x.parent.color
-                    x.parent.color = 'black'
-                    if sibling.left: sibling.left.color = 'black'
-                    self.rotate_right(x.parent)
+                    if f is not None: f.color = color(p)
+                    p.color = "black"
+                    if f and f.left: f.left.color = "black"
+                    self.rotate_right(p)
                     x = self.root
-        if x:
-            x.color = 'black'
+
+        if x is not None:
+            x.color = "black"

@@ -3,17 +3,6 @@
 from .BST import BST
 
 
-class TreeNode:
-    def __init__(self, key, left = None, right = None):
-        self.key = key
-        self.left = left
-        self.right = right
-        self.parent = None
-        if left is not None:
-            left.parent = self
-        if right is not None:
-            right.parent = self
-
 def height(node):
     if node == None:
         return 0
@@ -73,4 +62,3 @@ class AVL(BST):
         (a,b) = super().remove(node)
         self._rebalance(parent)
         return (a,b)
-      

@@ -1,6 +1,6 @@
 from trees.BST import BST
 from trees.AVL import AVL
-from trees.RBT import RBT
+from trees.RBT import RBTree
 #from trees.AVL import AVL  # Scommentato per il test prestazionale
 from trees.BST import TreeNode
 #from trees.RBT import RBT  # Scommentato per il test prestazionale
@@ -10,9 +10,9 @@ from utils.DataStorage import DataStorage
 
 def main():
 
-    provaAVL()
-
-'''
+    #provaAVL()
+    #provaBST()
+    '''
     handler = RandomKeyHandler()
     tree = AVL()
     handler.update_working_set(10)
@@ -32,14 +32,6 @@ def main():
     print(tree.__str__())
     print(handler.print_working_set())
     print(handler.print_working_nodes())
-''' 
-
-
-
-
-
-
-
 '''
 
     # PARTE 2: TEST PRESTAZIONALE (IMPLEMENTAZIONE COMPLETA)
@@ -64,7 +56,7 @@ def main():
         # Misurazione tempi di inserimento per le tre strutture
         t_bst = measure_insertion_time(BST, n, handler)
         t_avl = measure_insertion_time(AVL, n, handler)
-        t_rbt = measure_insertion_time(RBT, n, handler)
+        t_rbt = measure_insertion_time(RBTree, n, handler)
 
         # Memorizzazione risultati
         tutti_i_risultati.append((n, t_bst, t_avl, t_rbt))
@@ -77,8 +69,6 @@ def main():
     print("\nSimulazione completata. Risultati salvati in 'results.csv'.")
 
 '''
-
-
 def provaAVL():
     nodes = [TreeNode(i) for i in range(1, 11)]
     avl_tree = AVL()
@@ -86,6 +76,17 @@ def provaAVL():
         avl_tree.insert(node)
         print(f"Inserito {node.key}:")
         print(avl_tree.__str__())
+
+
+def provaBST():
+    nodes = [TreeNode(i) for i in range(1, 11)]
+    bst_tree = RBTree()
+    for node in nodes:
+        bst_tree.insert(node)
+        print(f"Inserito {node.key}:")
+        print(bst_tree.__str__())
+    print(bst_tree.print_tree())
+'''
 
 if __name__ == "__main__":
     main()

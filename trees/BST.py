@@ -94,6 +94,10 @@ class BST():
 
     def insert(self, node):
 
+        node.parent = None
+        node.left = None
+        node.right = None
+
         if self.root is None:
             self.root = node
             return

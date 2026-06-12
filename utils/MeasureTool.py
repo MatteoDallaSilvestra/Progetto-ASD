@@ -14,7 +14,7 @@ def measure_insertion_time(tree_type, n, key_handler):
     times = []
     
     # Misurazioni
-    for _ in range(100):
+    for _ in range(5):
         # Chiave esterna da inserire
         node_to_insert = key_handler.get_node_to_insert()
         

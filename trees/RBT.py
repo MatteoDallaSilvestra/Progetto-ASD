@@ -1,7 +1,7 @@
 #Class RBT, for Red-Black Tree
 #Contains the implementation of Red-Black Tree and its operations
 
-from .BST import TreeNode, BST
+from .BST import  BST
 
 def color(node):
     # Ogni nodo che non esiste (None) deve essere considerato NERO
@@ -16,8 +16,6 @@ class RBTree (BST):
 
 
     def insert(self, node):
-        if isinstance(node, int):
-            node = TreeNode(node)
 
         node.color = 'red'
         

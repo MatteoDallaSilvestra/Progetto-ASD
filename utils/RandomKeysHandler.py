@@ -18,6 +18,7 @@ class RandomKeyHandler:
         self.dimension = dimension
         self.working_set = [ i for i in range(0, dimension + 1) ]
         self.working_nodes = [ TreeNode(i) for i in range(0, dimension + 1) ]
+        self.used_keys_index = 0 # <--- FIX
         
 
     def swap_keys(self, index1, index2):

@@ -36,7 +36,7 @@ def main():
 
     # PARTE 2: TEST PRESTAZIONALE (IMPLEMENTAZIONE COMPLETA)
     n_min = 1000
-    n_max = 10000000
+    n_max = 1000000
     num_punti = 10
     
     # Calcolo della ragione per la progressione geometrica

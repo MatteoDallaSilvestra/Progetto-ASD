@@ -24,28 +24,45 @@ class AVL(BST):
         if node.left is None and node.right is None:
             return 0
         return height(node.left) - height(node.right)
+    
+    def rotate_left(self, node):
+        right_child = node.right
+        super().rotate_left(node)
+
+        if node is not None:
+            node.height = None
+        if right_child is not None:
+            right_child.height = None
+
+    def rotate_right(self, node):
+        left_child = node.left
+        super().rotate_right(node)
+
+        if node is not None:
+            node.height = None
+        if left_child is not None:
+            left_child.height = None
 
     def _rebalance(self, node):
-        def recompute_heights(subtree):
-            if subtree is None:
-                return 0
-            subtree.height = 1 + max(recompute_heights(subtree.left), recompute_heights(subtree.right))
-            return subtree.height
+        invalidate_height(node)
 
         while node is not None:
-            recompute_heights(self.root)
+            parent = node.parent
             balance = self._balance_factor(node)
 
             if balance > 1:
                 if self._balance_factor(node.left) < 0:
                     self.rotate_left(node.left)
                 self.rotate_right(node)
+                invalidate_height(parent if parent is not None else self.root)
+    
             elif balance < -1:
                 if self._balance_factor(node.right) > 0:
                     self.rotate_right(node.right)
                 self.rotate_left(node)
+                invalidate_height(parent if parent is not None else self.root)
 
-            node = node.parent
+            node = parent
 
     def insert(self, node):
         super().insert(node)
@@ -53,12 +70,31 @@ class AVL(BST):
 
 
     def remove(self, node):
-        parent = node.parent
-        if node is not None and node.left is not None and node.right is not None:
-            successor = self.nxt(node)
-            if successor is not None:
-                parent = successor.parent
+        
+        if node is None:
+            return (None, None)
+        
+
+        has_two_children = node.left is not None and node.right is not None
+        
+        if not has_two_children:
+            physical_deleted_node = node
+        else:            
+            physical_deleted_node = self.nxt(node)
+
+        rebalance_start_node = physical_deleted_node.parent
+
 
         (a,b) = super().remove(node)
-        self._rebalance(parent)
+
+        if has_two_children and node is not None:
+            invalidate_height(node)
+            
+        
+        if rebalance_start_node is not None:
+            self._rebalance(rebalance_start_node)
+        elif self.root is not None:
+            self._rebalance(self.root)
+
+
         return (a,b)

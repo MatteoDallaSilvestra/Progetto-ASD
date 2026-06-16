@@ -20,7 +20,7 @@ class AVL(BST):
     def __init__(self, root = None):
         super().__init__(root)
 
-    def _balance_factor(self, node):
+    def balance_factor(self, node):
         if node.left is None and node.right is None:
             return 0
         return height(node.left) - height(node.right)
@@ -43,21 +43,21 @@ class AVL(BST):
         if left_child is not None:
             left_child.height = None
 
-    def _rebalance(self, node):
+    def rebalance(self, node):
         invalidate_height(node)
 
         while node is not None:
             parent = node.parent
-            balance = self._balance_factor(node)
+            balance = self.balance_factor(node)
 
             if balance > 1:
-                if self._balance_factor(node.left) < 0:
+                if self.balance_factor(node.left) < 0:
                     self.rotate_left(node.left)
                 self.rotate_right(node)
                 invalidate_height(parent if parent is not None else self.root)
     
             elif balance < -1:
-                if self._balance_factor(node.right) > 0:
+                if self.balance_factor(node.right) > 0:
                     self.rotate_right(node.right)
                 self.rotate_left(node)
                 invalidate_height(parent if parent is not None else self.root)
@@ -66,7 +66,7 @@ class AVL(BST):
 
     def insert(self, node):
         super().insert(node)
-        self._rebalance(node)
+        self.rebalance(node)
 
 
     def remove(self, node):
@@ -92,9 +92,9 @@ class AVL(BST):
             
         
         if rebalance_start_node is not None:
-            self._rebalance(rebalance_start_node)
+            self.rebalance(rebalance_start_node)
         elif self.root is not None:
-            self._rebalance(self.root)
+            self.rebalance(self.root)
 
 
         return (a,b)

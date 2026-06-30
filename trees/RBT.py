@@ -1,6 +1,3 @@
-#Class RBT, for Red-Black Tree
-#Contains the implementation of Red-Black Tree and its operations
-
 from .BST import  BST
 
 def color(node):
@@ -132,7 +129,7 @@ class RBTree (BST):
         while x != self.root and color(x) == 'black':
             
             left_side = is_left if is_left is not None else (x == p.left)
-            is_left = None # Resettiamo per le iterazioni successive
+            is_left = None
 
             if left_side:
                 f = p.right

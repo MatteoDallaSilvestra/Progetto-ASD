@@ -1,5 +1,3 @@
-# Class AVl Tree 
-# Contains the implementation of AVL Tree and its operations
 from .BST import BST
 
 

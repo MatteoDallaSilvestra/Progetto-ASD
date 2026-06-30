@@ -1,9 +1,4 @@
-# Provides operations to build random trees while keep track of used keys to avoid duplicates.
-# It uses a working set, which has to be updated every time we need to change the dimention of the tree. 
-# Has a function to generate a random tree.
-# Has a function to pick a random key to remove from the tree in order to use it as the key to insert in the next operation.
 from trees.BST import TreeNode
-# In working set, keys after the used keys index are available for insertion, while keys before the used keys index are available for removal.
 
 import random
 
